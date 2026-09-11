@@ -1,6 +1,8 @@
 class MacosSpeechServer < Formula
   desc "Local speech-to-text and text-to-speech server (OpenAI API + Wyoming)"
   homepage "https://github.com/dokterbob/macos-speech-server"
+  url "https://github.com/dokterbob/macos-speech-server/archive/refs/tags/v0.1.0.tar.gz"
+  sha256 "8311088bc1f5ccbccf9fad0ac372178f161677704b1ee75a0cdddf6a31d65afe"
   license "AGPL-3.0-only"
   head "https://github.com/dokterbob/macos-speech-server.git", branch: "main"
 
