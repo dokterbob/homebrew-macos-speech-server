@@ -6,6 +6,11 @@ class MacosSpeechServer < Formula
   license "AGPL-3.0-only"
   head "https://github.com/dokterbob/macos-speech-server.git", branch: "main"
 
+  bottle do
+    root_url "https://github.com/dokterbob/homebrew-macos-speech-server/releases/download/macos-speech-server-0.1.0"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "f397011394a22ed6c91b4e5cffd0f0b24c9de7e363df839ab07aa516a5025181"
+  end
+
   # The binary runs on macOS 14+, but building needs a Swift 6.2 toolchain (Xcode 26 or the
   # matching Command Line Tools), which only exists for macOS 15+. `depends_on xcode:` is
   # deliberately omitted: the Command Line Tools `swift` is sufficient, and the xcode
