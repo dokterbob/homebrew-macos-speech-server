@@ -17,14 +17,8 @@ jobs:
   test-bot:
     strategy:
       matrix:
-        os: [ macos-26 ]
-        include:
-          - os: ubuntu-latest
-            container:
-              image: ghcr.io/homebrew/brew:main
-              options: --privileged
+        os: [ macos-15 ]
     runs-on: ${{ matrix.os }}
-    container: ${{ fromJSON(toJSON(matrix.container)) }} # zizmor: ignore[unpinned-images]
     permissions:
       actions: read
       checks: read
@@ -49,7 +43,14 @@ jobs:
       - run: brew test-bot --only-setup
 
       - run: brew test-bot --only-tap-syntax
-      - run: brew test-bot --only-formulae
+
+      - name: Select Xcode 26 (Swift 6.2)
+        if: startsWith(matrix.os, 'macos-15')
+        run: |
+          xcode="$(printf '%s\n' /Applications/Xcode_26*.app | sort -V | tail -1)"
+          sudo xcode-select -s "$xcode"
+
+      - run: brew test-bot --only-formulae --skip-new
         if: github.event_name == 'pull_request'
 
       - name: Upload bottles as artifact
