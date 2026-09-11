@@ -53,6 +53,7 @@ sudo sysadminctl -addUser _speech-server -fullName "Speech Server" -UID 450 -rol
 sudo dscl . -create /Users/_speech-server NFSHomeDirectory "$(brew --prefix)/var/speech-server"
 sudo mkdir -p "$(brew --prefix)/var/speech-server"
 sudo chown -R _speech-server "$(brew --prefix)/var/speech-server"
+brew services stop macos-speech-server 2>/dev/null || true
 sudo brew services start macos-speech-server --sudo-service-user _speech-server
 ```
 

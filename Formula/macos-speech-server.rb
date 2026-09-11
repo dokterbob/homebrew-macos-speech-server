@@ -53,6 +53,7 @@ class MacosSpeechServer < Formula
         sudo dscl . -create /Users/_speech-server NFSHomeDirectory #{var}/speech-server
         sudo mkdir -p #{var}/speech-server
         sudo chown -R _speech-server #{var}/speech-server
+        brew services stop #{name} 2>/dev/null || true
         sudo brew services start #{name} --sudo-service-user _speech-server
       Do not run both services at once (they share ports 8080 and 10300).
     EOS
