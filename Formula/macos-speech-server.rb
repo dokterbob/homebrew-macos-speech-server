@@ -11,6 +11,17 @@ class MacosSpeechServer < Formula
   depends_on macos: :sonoma
 
   def install
+    # Homebrew builds against the Command Line Tools SDK whenever the CLT are installed.
+    # Swift 6.2's standard library (e.g. Span, used by swift-collections) needs the macOS 26
+    # SDK, so when Xcode 26 or newer is present build with its toolchain and SDK instead of a
+    # possibly older CLT SDK.
+    if MacOS::Xcode.installed? && MacOS::Xcode.version >= "26"
+      ENV["DEVELOPER_DIR"] = MacOS::Xcode.prefix.to_s
+      ENV["HOMEBREW_DEVELOPER_DIR"] = MacOS::Xcode.prefix.to_s
+      ENV["SDKROOT"] = MacOS::Xcode.sdk_path.to_s
+      ENV["HOMEBREW_SDKROOT"] = MacOS::Xcode.sdk_path.to_s
+    end
+
     # std_swift_args adds --disable-sandbox on macOS; Homebrew's sandbox allows network so
     # SwiftPM can fetch the pinned dependencies from Package.resolved.
     system "swift", "build", *std_swift_args
