@@ -62,6 +62,11 @@ working directory (which also holds the log) is owned by `_speech-server`; to sw
 the per-user service, `sudo brew services stop macos-speech-server` and hand the directory back
 with `sudo chown -R "$(id -un)" "$(brew --prefix)/var/speech-server"` first.
 
+**Warning:** the system service cannot use downloaded macOS voices (Enhanced/Premium voices
+or the multi-locale voices) because a LaunchDaemon has no GUI login session — see
+[docs/install.md](https://github.com/dokterbob/macos-speech-server/blob/main/docs/install.md)
+for details and the per-user-service workaround.
+
 ## Documentation
 
 Full configuration reference, API documentation and Home Assistant setup live in the

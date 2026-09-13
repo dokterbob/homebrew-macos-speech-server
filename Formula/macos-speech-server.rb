@@ -79,6 +79,14 @@ class MacosSpeechServer < Formula
         brew services stop #{name} 2>/dev/null || true
         sudo brew services start #{name} --sudo-service-user _speech-server
       Do not run both services at once (they share ports 8080 and 10300).
+
+      WARNING: the system service cannot use downloaded macOS voices. A LaunchDaemon
+      has no GUI login session, so the avspeech engine only sees the ~70 built-in
+      compact voices; Enhanced/Premium voices (e.g. "Zoe (Premium)") and the
+      multi-locale voices (Eddy, Flo, ...) are not available and there is no known
+      workaround. To use them, run the per-user service as a user who stays logged in
+      (enable automatic login for unattended boots). pocket_tts and kokoro are unaffected.
+      Details: https://github.com/dokterbob/macos-speech-server/blob/main/docs/install.md
     EOS
   end
 
