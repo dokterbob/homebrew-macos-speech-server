@@ -29,7 +29,7 @@ curl -sf -X POST http://127.0.0.1:8080/v1/audio/speech \
 | What | Where |
 |------|-------|
 | Configuration | `$(brew --prefix)/etc/speech-server/speech-server.yaml` |
-| Logs | `$(brew --prefix)/var/log/speech-server.log` |
+| Logs | `$(brew --prefix)/var/speech-server/speech-server.log` |
 | Working directory | `$(brew --prefix)/var/speech-server` |
 | launchd label | `sh.brew.macos-speech-server` |
 
@@ -57,7 +57,10 @@ brew services stop macos-speech-server 2>/dev/null || true
 sudo brew services start macos-speech-server --sudo-service-user _speech-server
 ```
 
-Do not run both services at once — they share ports 8080 and 10300.
+Do not run both services at once — they share ports 8080 and 10300. In system mode the
+working directory (which also holds the log) is owned by `_speech-server`; to switch back to
+the per-user service, `sudo brew services stop macos-speech-server` and hand the directory back
+with `sudo chown -R "$(id -un)" "$(brew --prefix)/var/speech-server"` first.
 
 ## Documentation
 
