@@ -43,14 +43,19 @@ class MacosSpeechServer < Formula
     keep_alive true
     working_dir var/"speech-server"
     environment_variables SPEECH_SERVER_CONFIG: etc/"speech-server/speech-server.yaml"
-    log_path var/"log/speech-server.log"
-    error_log_path var/"log/speech-server.log"
+    # The log lives inside working_dir rather than var/log on purpose. With
+    # `--sudo-service-user`, launchd opens the log file as that user, but `brew services`
+    # only creates the parent directories (as root) and never chowns them, so a log under
+    # var/log fails with EX_CONFIG (78) unless it is pre-created by hand. Keeping it in the
+    # directory the role account already owns removes that manual step.
+    log_path var/"speech-server/speech-server.log"
+    error_log_path var/"speech-server/speech-server.log"
   end
 
   def caveats
     <<~EOS
       Configuration: #{etc}/speech-server/speech-server.yaml
-      Logs:          #{var}/log/speech-server.log
+      Logs:          #{var}/speech-server/speech-server.log
       After editing the configuration, run: brew services restart #{name}
 
       On first start the server downloads speech models (roughly 700 MB with the
