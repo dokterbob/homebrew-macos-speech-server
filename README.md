@@ -24,6 +24,37 @@ curl -sf -X POST http://127.0.0.1:8080/v1/audio/speech \
   -d '{"model":"tts-1","input":"Hello"}' -o /tmp/hello.wav
 ```
 
+## Optional native Mac app (preview)
+
+The separate app formula provides setup, settings, service controls, logs, and speech tests:
+
+```sh
+brew install dokterbob/macos-speech-server/macos-speech-server-app
+speech-server-app
+```
+
+It requires Apple Silicon and macOS 15+. The initial version pins a preview source commit;
+bottles are published through this tap's existing CI. It uses ad-hoc signing without a paid
+Apple developer account. macOS may still request background-item approval.
+
+Choose **Set Up & Start** in the GUI. Quitting the app leaves its per-user service running.
+The app has its own configuration in `~/Library/Application Support/Speech Server/` and
+bundled CLI command, `speech-server-app-cli`. The independent `speech-server` command and
+`brew services` workflow above are unchanged. Stop one service before starting the other
+with the same ports.
+
+After `brew upgrade macos-speech-server-app`, quit and reopen the app to reload its agent.
+Before uninstalling, disable background operation:
+
+```sh
+speech-server-app-cli service --app disable
+brew uninstall macos-speech-server-app
+```
+
+Configuration and model caches are retained. See the
+[app guide](https://github.com/dokterbob/macos-speech-server/blob/feature/mac-companion-app/docs/mac-app.md)
+for setup, management commands, upgrades, and release acceptance checks.
+
 ## Paths
 
 | What | Where |
