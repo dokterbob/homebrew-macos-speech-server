@@ -1,9 +1,9 @@
 class MacosSpeechServerApp < Formula
   desc "Native Mac interface for private speech services, with a bundled server"
   homepage "https://github.com/dokterbob/macos-speech-server"
-  url "https://github.com/dokterbob/macos-speech-server/archive/5558c55439207bdbbda3c5c2cab1dca3d94fdb09.tar.gz"
-  version "0.1.0-preview.5558c55"
-  sha256 "f4a099e95e3caaa42e3b8c2bf92be07b737a12848e39315982d3fef61d4235a6"
+  url "https://github.com/dokterbob/macos-speech-server/archive/506aaf7b0e99f827f4de0a13e3ffd56ca305d9cb.tar.gz"
+  version "0.1.0-preview.506aaf7"
+  sha256 "20147b8087b32bf6fece71efc626f8617bf15b79f4deb482a4ff64225b47e44a"
   license "AGPL-3.0-only"
   head "https://github.com/dokterbob/macos-speech-server.git", branch: "main"
 
@@ -63,10 +63,11 @@ class MacosSpeechServerApp < Formula
     (testpath/"settings.yaml").write "{}\n"
     app = libexec/"Speech Server.app"
     output = shell_output("\"#{bin}/speech-server-app-cli\" config validate #{testpath}/settings.yaml --json")
-    assert_equal 8080, JSON.parse(output).fetch("configuration").fetch("config").fetch("servers").fetch("http").fetch("port")
+    config = JSON.parse(output).fetch("configuration").fetch("config")
+    assert_equal 8080, config.fetch("servers").fetch("http").fetch("port")
     assert_predicate app/"Contents/MacOS/speech-server-agent", :executable?
     assert_match "--app", shell_output("\"#{bin}/speech-server-app-cli\" service --help")
-    refute_predicate app/"Contents/Frameworks/Sparkle.framework", :exist?
+    refute_path_exists app/"Contents/Frameworks/Sparkle.framework"
     system "/usr/bin/codesign", "--verify", "--deep", "--strict", app
   end
 end
