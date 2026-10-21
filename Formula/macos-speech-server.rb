@@ -1,15 +1,10 @@
 class MacosSpeechServer < Formula
   desc "Local speech-to-text and text-to-speech server (OpenAI API + Wyoming)"
   homepage "https://github.com/dokterbob/macos-speech-server"
-  url "https://github.com/dokterbob/macos-speech-server/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "8311088bc1f5ccbccf9fad0ac372178f161677704b1ee75a0cdddf6a31d65afe"
+  url "https://github.com/dokterbob/macos-speech-server/archive/refs/tags/v0.1.1.tar.gz"
+  sha256 "4968fbaa9da17b1a26146cf8e1487f2ed3f739dd0d32514b8dbbc95fe8f72ad2"
   license "AGPL-3.0-only"
   head "https://github.com/dokterbob/macos-speech-server.git", branch: "main"
-
-  bottle do
-    root_url "https://github.com/dokterbob/homebrew-macos-speech-server/releases/download/macos-speech-server-0.1.0"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "f397011394a22ed6c91b4e5cffd0f0b24c9de7e363df839ab07aa516a5025181"
-  end
 
   # The binary runs on macOS 14+, but building needs a Swift 6.2 toolchain (Xcode 26 or the
   # matching Command Line Tools), which only exists for macOS 15+. `depends_on xcode:` is
